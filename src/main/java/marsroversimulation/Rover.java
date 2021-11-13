@@ -97,7 +97,7 @@ public class Rover implements IRoverControl {
         }
     }
 
-    public void execute() throws UnsupportedOperationException {
+    public String execute() throws UnsupportedOperationException {
         for (char controlData : this.commandList.toUpperCase().toCharArray()) {
             if ('L' != controlData && 'R' != controlData && 'M' != controlData)
                 throw new UnsupportedOperationException("Rover command error");
@@ -107,5 +107,7 @@ public class Rover implements IRoverControl {
             else
                 rotate(Character.toString(controlData));
         }
+
+        return this.getPosition().getX() + " " + this.getPosition().getY() + " " + this.getDirection().getDirectionCode();
     }
 }
