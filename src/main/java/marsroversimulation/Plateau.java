@@ -26,6 +26,9 @@ public class Plateau {
     public Plateau(List<String> commandList) throws RoverException {
         int upperRightPointX;
         int upperRightPointY;
+
+        if (!commandList.get(0).matches("\\d \\d"))
+            throw new RoverException("Dosyadaki plato genişliği bilgisi hatalı");
         try (Scanner scanner = new Scanner(commandList.get(0))) {
             upperRightPointX = scanner.nextInt();
             if (upperRightPointX <= 0)
