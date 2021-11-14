@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import marsroversimulation.util.Direction;
 import marsroversimulation.util.IRoverControl;
+import marsroversimulation.util.RoverException;
 
 import java.util.Scanner;
 
@@ -40,22 +41,30 @@ public class Rover implements IRoverControl {
     }
 
     @Override
-    public void move() {
+    public void move(Position gridSize) throws RoverException {
         switch (this.direction) {
             // ( x , y+1 )
             case NORTH:
+                if (position.getY() + 1 > gridSize.getY())
+                    throw new RoverException("Plato sınırı dışına çıkıldı.");
                 position.setY(position.getY() + 1);
                 break;
             // ( x+1 , y )
             case EAST:
+                if (position.getX() + 1 > gridSize.getX())
+                    throw new RoverException("Plato sınırı dışına çıkıldı.");
                 position.setX(position.getX() + 1);
                 break;
             // ( x , y-1 )
             case SOUTH:
+                if (position.getY() - 1 < 0)
+                    throw new RoverException("Plato sınırı dışına çıkıldı.");
                 position.setY(position.getY() - 1);
                 break;
             // ( x-1 , y )
             case WEST:
+                if (position.getX() - 1 < 0)
+                    throw new RoverException("Plato sınırı dışına çıkıldı.");
                 position.setX(position.getX() - 1);
                 break;
             default:
@@ -97,13 +106,13 @@ public class Rover implements IRoverControl {
         }
     }
 
-    public String execute() throws UnsupportedOperationException {
+    public String execute(Position gridSize) throws RoverException {
         for (char controlData : this.commandList.toUpperCase().toCharArray()) {
             if ('L' != controlData && 'R' != controlData && 'M' != controlData)
                 throw new UnsupportedOperationException("Rover command error");
 
             if ('M' == controlData)
-                move();
+                move(gridSize);
             else
                 rotate(Character.toString(controlData));
         }

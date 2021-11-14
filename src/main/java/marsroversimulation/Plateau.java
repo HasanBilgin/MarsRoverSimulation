@@ -2,10 +2,12 @@ package marsroversimulation;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import marsroversimulation.util.RoverException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @NoArgsConstructor
@@ -34,7 +36,15 @@ public class Plateau {
             roverList.add(new Rover(commandList.get(i), commandList.get(i + 1)));
     }
 
-    public void explore () {
-        roverList.forEach(rover -> System.out.println(rover.execute()));
+    public void explore() {
+        AtomicInteger roverCounter = new AtomicInteger(0);
+        roverList.forEach(rover -> {
+            final int counter = roverCounter.incrementAndGet();
+            try {
+                System.out.println(counter + ". gezici konumu: " + rover.execute(plateauGrid));
+            } catch (RoverException exception) {
+                System.out.println(counter + ". gezici hareket sırasında hata. " + exception.getMessage());
+            }
+        });
     }
 }
