@@ -1,5 +1,7 @@
 package marsroversimulation;
 
+import marsroversimulation.util.RoverException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,8 +18,12 @@ public class MarsRoverSimulation {
             System.err.println("command.txt dosyası içerisinden komutlar okunamadı.");
             return;
         }
-        Plateau plateau = new Plateau(commandList);
-        plateau.explore();
+        try {
+            Plateau plateau = new Plateau(commandList);
+            plateau.explore();
+        } catch (RoverException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 

@@ -23,12 +23,16 @@ public class Plateau {
         this.plateauGrid = new Position(x, y);
     }
 
-    public Plateau(List<String> commandList) {
+    public Plateau(List<String> commandList) throws RoverException {
         int upperRightPointX;
         int upperRightPointY;
         try (Scanner scanner = new Scanner(commandList.get(0))) {
             upperRightPointX = scanner.nextInt();
+            if ( upperRightPointX <= 0 )
+                throw new RoverException("Plato sınırları 0'dan büyük olmalıdır");
             upperRightPointY = scanner.nextInt();
+            if ( upperRightPointY <= 0 )
+                throw new RoverException("Plato sınırları 0'dan büyük olmalıdır");
         }
         this.plateauGrid = new Position(upperRightPointX, upperRightPointY);
         roverList = new ArrayList<>();
