@@ -19,7 +19,8 @@
 
 
 <h3>İletişim:</h3>
+<p>
 <a href="http3s://linkedin.com/in/hasan-bilgin" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="hasan-bilgin" height="30" width="40" /></a>
 <a href="https://github.com/HasanBilgin" target="blank"><img align="center" src="https://github.githubassets.com/favicons/favicon-dark.svg" alt="hasan-bilgin" height="30" width="40" /></a>
-
+</p>
 
