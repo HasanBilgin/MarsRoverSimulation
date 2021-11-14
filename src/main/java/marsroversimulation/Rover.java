@@ -18,26 +18,36 @@ public class Rover implements IRoverControl {
     private String commandList;
 
     public Rover(String position, String command) {
-        try (Scanner scanner = new Scanner(position)) {
-            this.position = new Position(scanner.nextInt(), scanner.nextInt());
-            switch (scanner.next().trim()) {
-                case "N":
-                    this.direction = Direction.NORTH;
-                    break;
-                case "S":
-                    this.direction = Direction.SOUTH;
-                    break;
-                case "E":
-                    this.direction = Direction.EAST;
-                    break;
-                case "W":
-                    this.direction = Direction.WEST;
-                    break;
-                default:
-                    this.direction = null;
+        if (!position.matches("\\d \\d \\w")) {
+            this.position = null;
+            this.direction = null;
+        } else {
+            try (Scanner scanner = new Scanner(position)) {
+                this.position = new Position(scanner.nextInt(), scanner.nextInt());
+                switch (scanner.next().trim()) {
+                    case "N":
+                        this.direction = Direction.NORTH;
+                        break;
+                    case "S":
+                        this.direction = Direction.SOUTH;
+                        break;
+                    case "E":
+                        this.direction = Direction.EAST;
+                        break;
+                    case "W":
+                        this.direction = Direction.WEST;
+                        break;
+                    default:
+                        this.direction = null;
+                }
             }
         }
-        this.commandList = command;
+
+        if (!command.toUpperCase().matches("^[LMR]*$"))
+            this.commandList = null;
+        else
+            this.commandList = command.toUpperCase();
+
     }
 
     @Override
@@ -107,10 +117,14 @@ public class Rover implements IRoverControl {
     }
 
     public String execute(Position gridSize) throws RoverException {
-        for (char controlData : this.commandList.toUpperCase().toCharArray()) {
-            if ('L' != controlData && 'R' != controlData && 'M' != controlData)
-                throw new UnsupportedOperationException("Rover command error");
+        if (this.position == null)
+            throw new RoverException("Gezici cihaz pozisyon bilgisi hatalı");
+        if (this.direction == null)
+            throw new RoverException("Gezici cihaz yön bilgisi hatalı");
+        if (this.commandList == null)
+            throw new RoverException("Gezici cihaz komutları hatalı");
 
+        for (char controlData : this.commandList.toUpperCase().toCharArray()) {
             if ('M' == controlData)
                 move(gridSize);
             else
