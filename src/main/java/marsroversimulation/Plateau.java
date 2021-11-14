@@ -28,16 +28,20 @@ public class Plateau {
         int upperRightPointY;
         try (Scanner scanner = new Scanner(commandList.get(0))) {
             upperRightPointX = scanner.nextInt();
-            if ( upperRightPointX <= 0 )
+            if (upperRightPointX <= 0)
                 throw new RoverException("Plato sınırları 0'dan büyük olmalıdır");
             upperRightPointY = scanner.nextInt();
-            if ( upperRightPointY <= 0 )
+            if (upperRightPointY <= 0)
                 throw new RoverException("Plato sınırları 0'dan büyük olmalıdır");
         }
         this.plateauGrid = new Position(upperRightPointX, upperRightPointY);
         roverList = new ArrayList<>();
-        for (int i = 1; i < commandList.size(); i += 2)
-            roverList.add(new Rover(commandList.get(i), commandList.get(i + 1)));
+        for (int i = 1; i < commandList.size(); i += 2) {
+            if (i + 1 == commandList.size())
+                roverList.add(new Rover(commandList.get(i), null));
+            else
+                roverList.add(new Rover(commandList.get(i), commandList.get(i + 1)));
+        }
     }
 
     public void explore() {

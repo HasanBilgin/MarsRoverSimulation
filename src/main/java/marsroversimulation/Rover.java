@@ -43,7 +43,7 @@ public class Rover implements IRoverControl {
             }
         }
 
-        if (!command.toUpperCase().matches("^[LMR]*$"))
+        if (command == null || !command.toUpperCase().matches("^[LMR]*$"))
             this.commandList = null;
         else
             this.commandList = command.toUpperCase();
